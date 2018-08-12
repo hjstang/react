@@ -13,25 +13,37 @@ class App extends Component {
     showPersons: false
   }
 
+
+
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    // lager nytt objekt med spread
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    // update person
+    person.name = event.target.value;
+
+    // update person-array
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({ persons: persons} );
+  }
+
   // slette personer
   deletePersonHandler = (personIndex) => {
     //const persons = this.state.persons.slice();
     // ny liste med samme elementer fra den gamle listen ved å bruke spread (...)
-    const persons = [... this.state.persons];
+    const persons = [...this.state.persons];
     // fjerner ett element fra arrayen
     persons.splice(personIndex, 1);
     // oppdaterer personer
     this.setState({persons: persons});
-  }
-
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-      { name: "Janine", age: 22},
-      { name: event.target.value, age: 26},
-      { name: 'Cathrine', age: 21}
-    ]
-  } )
   }
 
   togglePersonsHandler = () => {
@@ -59,7 +71,8 @@ class App extends Component {
               click ={() => this.deletePersonHandler(index)}
                 name={person.name} 
                 age={person.age} 
-                key={person.id} />
+                key={person.id} 
+                changed={(event) => this.nameChangedHandler(event, person.id)}/>
             })}
           </div>
         );
