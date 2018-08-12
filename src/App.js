@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person.js';
-import Radium from 'radium';
+import Radium, { StyleRoot } from 'radium';
 
 class App extends Component {
   state = {
@@ -53,7 +53,7 @@ class App extends Component {
   }
 
   render() {
-    // using radium here for hover-style
+    // using pseudo-selector (hover-style)
       const style = {
         backgroundColor: 'green',
         color: 'white',
@@ -102,6 +102,8 @@ class App extends Component {
       }
 
       return (
+        // Wrapping application in StyleRoot for media queries
+        <StyleRoot>
         <div className="App">
           <h1> Hi, I'm a React app.</h1>
           <p className={classes.join(' ')}> This is really working </p>
@@ -110,6 +112,7 @@ class App extends Component {
             onClick={this.togglePersonsHandler}>Toggle Persons</button>
             {persons}
         </div>
+        </StyleRoot>
       );
       //return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'does this work now?'));
   }
